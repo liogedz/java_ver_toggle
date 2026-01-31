@@ -1,0 +1,34 @@
+# ===== JDK Switcher =====
+# Add this to ~/.bashrc or ~/.zshrc
+
+function usejdk() {
+  if [ -z "$1" ]; then
+    echo "Usage: usejdk <version>"
+    return 1
+  fi
+
+  local jdk_path=""
+
+  case "$1" in
+    17)
+      jdk_path="$HOME/.linuxbrew/opt/openjdk@17"
+      ;;
+    21)
+      jdk_path="$HOME/.linuxbrew/opt/openjdk@21"
+      ;;
+    25)
+      jdk_path="$HOME/.linuxbrew/opt/openjdk"
+      ;;
+    *)
+      echo "Unknown JDK version: $1"
+      return 1
+      ;;
+  esac
+
+  export JAVA_HOME="$jdk_path"
+  export PATH="$JAVA_HOME/bin:$PATH"
+
+  echo "Switched to JDK $1"
+  java -version
+  javac -version
+}
