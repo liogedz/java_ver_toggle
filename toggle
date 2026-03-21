@@ -11,31 +11,31 @@ function usejdk() {
   local jdk_path=""
 
   case "$1" in
-    21)
-      jdk_path="$brew_prefix/opt/openjdk@21"
-      ;;
-    25)
-      jdk_path="$brew_prefix/opt/openjdk@25"
-      ;;
+    21) jdk_path="$brew_prefix/opt/openjdk@21" ;;
+    25) jdk_path="$brew_prefix/opt/openjdk@25" ;;
     *)
       echo "Unknown JDK version: $1"
       return 1
       ;;
   esac
 
+  if [ ! -x "$jdk_path/bin/java" ]; then
+    echo "JDK not found at $jdk_path"
+    return 1
+  fi
+
   export JAVA_HOME="$jdk_path"
 
-  # Force java symlink to point at chosen JDK
   ln -sf "$JAVA_HOME/bin/java"  "$brew_prefix/bin/java"
   ln -sf "$JAVA_HOME/bin/javac" "$brew_prefix/bin/javac"
   ln -sf "$JAVA_HOME/bin/jar"   "$brew_prefix/bin/jar"
 
-  # Also prepend to PATH (belt-and-suspenders, and for tools not symlinked)
-  export PATH="$JAVA_HOME/bin:$(echo $PATH | tr ':' '\n' | grep -v '/openjdk' | tr '\n' ':' | sed 's/:$//')"
+  export PATH="$JAVA_HOME/bin:$(echo "$PATH" | tr ':' '\n' | grep -v "$brew_prefix/opt/openjdk" | paste -sd ':' -)"
 
-  hash -r  # clear shell's command location cache
+  hash -r
 
   echo "Switched to JDK $1"
+  echo "JAVA_HOME=$JAVA_HOME"
   which java
   java -version
   javac -version
