@@ -78,4 +78,5 @@ source ~/.bashrc
 ```bash
 usejdk 21   # switch to JDK 21
 usejdk 25   # switch to JDK 25
+usejdk 27   # switch to JDK 27
 ```
