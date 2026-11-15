@@ -21,7 +21,6 @@ mvn -version
 gradle -version  # if you use Gradle
 ```
 
-
 ```bash
 # ===== JDK Switcher =====
 # Add this to ~/.bashrc or ~/.zshrc
@@ -38,6 +37,7 @@ function usejdk() {
   case "$1" in
     21) jdk_path="$brew_prefix/opt/openjdk@21" ;;
     25) jdk_path="$brew_prefix/opt/openjdk@25" ;;
+    27) jdk_path="$brew_prefix/opt/openjdk@27" ;;
     *)
       echo "Unknown JDK version: $1"
       return 1
@@ -67,7 +67,8 @@ function usejdk() {
 }
 ```
 
-# Reload bashrc 
+# Reload bashrc
+
 ```bash
 source ~/.bashrc
 ```
